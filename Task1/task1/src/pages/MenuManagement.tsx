@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-
+import { Eye , Trash } from "lucide-react";
 
 function MenuManagement()
 {
@@ -17,6 +17,14 @@ function MenuManagement()
         Approved : 1,
         Rejected : 2,
         Pending : 3
+     } as const
+
+     const AuthenticationLabel = 
+     {
+        1 : "Approved",
+        2 : "Rejected",
+        3 : "Pending"
+
      } as const
      
     const AuthenticationDetails = 
@@ -45,7 +53,7 @@ function MenuManagement()
         <div>
          <Table>
            <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-100">
 
                 <TableHead>S.No</TableHead>
                 <TableHead>Full Name</TableHead>
@@ -57,21 +65,33 @@ function MenuManagement()
 
             </TableRow>
 
+             </TableHeader>
+
             <TableBody>
               {
                 AuthenticationDetails.map((info) => (
                    <TableRow key={info.id}>
+
                      <TableCell>{info.id}</TableCell>
                      <TableCell>{info.fullName}</TableCell>
+
                      <TableCell>{info.loginName}</TableCell>
-                     <TableCell>{info.isEmployee}</TableCell>
-                     <TableCell>{info.partyName}</TableCell>
-                     <TableCell>{info.status}</TableCell>
+
+                     <TableCell>{info.isEmployee ? "Yes" : "No"}</TableCell>
+
+                     <TableCell>{(info.partyName.length > 0) ? info.partyName : "-"}</TableCell>
+                     <TableCell>{AuthenticationLabel[info.status]}</TableCell>
+
+                     <TableCell className="flex items-center space-x-2">
+                        <Eye size="18"/>
+                        <Trash size="18"/>
+                    </TableCell>
+
                    </TableRow>
                 ))
               }
             </TableBody>
-           </TableHeader>
+          
          </Table>
         </div>
     );
